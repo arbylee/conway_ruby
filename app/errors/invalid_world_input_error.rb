@@ -1,0 +1,2 @@
+class InvalidWorldInputError < StandardError
+end

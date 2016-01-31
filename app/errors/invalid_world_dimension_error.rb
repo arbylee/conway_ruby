@@ -1,2 +1,0 @@
-class InvalidWorldDimensionError < StandardError
-end

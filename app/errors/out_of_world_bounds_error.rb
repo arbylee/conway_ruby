@@ -1,0 +1,2 @@
+class OutOfWorldBoundsError < StandardError
+end
