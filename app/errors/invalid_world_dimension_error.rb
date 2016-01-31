@@ -1,0 +1,2 @@
+class InvalidWorldDimensionError < StandardError
+end
