@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 require_relative '../app/game_of_life'
 require_relative '../app/console_ui'
-require_relative '../app/gosu_ui'
 
 x = ARGV[0].to_i || 25
 y = ARGV[1].to_i || 25
 ui_type = ARGV[2]
 
 if ui_type == 'gosu'
+  require_relative '../app/gosu_ui'
   ui = GosuUi.new x, y
 else
   ui = ConsoleUi.new
