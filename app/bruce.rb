@@ -1,4 +1,5 @@
 require_relative './organism'
+require_relative './world'
 
 class Bruce
   def build_populated_world width, height

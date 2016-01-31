@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+require_relative '../app/game_of_life'
+require_relative '../app/console_ui'
+
+x = ARGV[0].to_i || 25
+y = ARGV[1].to_i || 25
+
+ui = ConsoleUi.new
+
+GameOfLife.new.run x, y, ui
