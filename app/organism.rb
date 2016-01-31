@@ -1,5 +1,4 @@
 class Organism
-  def initialize alive
-    @alive = alive
+  def initialize
   end
 end
