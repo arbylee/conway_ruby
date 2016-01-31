@@ -14,4 +14,27 @@ class Bruce
 
     world
   end
+
+  def evolve world
+    cells_to_destroy = []
+    cells_to_spawn = []
+    (0...world.width).each do |x|
+      (0...world.height).each do |y|
+        cell_contents = world.get_cell(x,y)
+        neighbors = world.get_neighbors(x, y)
+        if cell_contents && (neighbors.size < 2 || neighbors.size > 3)
+          cells_to_destroy << [x, y]
+        elsif !cell_contents && neighbors.size == 3
+          cells_to_spawn << [x, y]
+        end
+      end
+    end
+
+    cells_to_destroy.each do |cell_x, cell_y|
+      world.set_cell(cell_x, cell_y, nil)
+    end
+    cells_to_spawn.each do |spawn_x, spawn_y|
+      world.set_cell(spawn_x, spawn_y, Organism.new)
+    end
+  end
 end
