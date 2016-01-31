@@ -21,10 +21,12 @@ class World
     end
   end
 
-  def coordinates_in_world? x, y
-    if !x.is_a?(Integer) || !y.is_a?(Integer) || x >= width || y >= height
+  def convert_inputs x, y
+    if !x.is_a?(Integer) || !y.is_a?(Integer)
       raise OutOfWorldBoundsError.new
     end
+
+    return [x % width, y % height]
   end
 
   def height
@@ -35,18 +37,17 @@ class World
     @grid[0].size
   end
 
-  def set_cell x, y, contents
-    coordinates_in_world?(x, y)
+  def set_cell x_input, y_input, contents
+    x, y = convert_inputs x_input, y_input
     @grid[y][x] = contents
   end
 
-  def get_cell x, y
-    coordinates_in_world?(x, y)
+  def get_cell x_input, y_input
+    x, y = convert_inputs x_input, y_input
     @grid[y][x]
   end
 
   def get_neighbors x, y
-    coordinates_in_world?(x, y)
     top_left      = get_cell x-1, y-1
     top_middle    = get_cell x,   y-1
     top_right     = get_cell x+1, y-1
@@ -60,6 +61,6 @@ class World
       top_left,    top_middle,    top_right,
       middle_left,                middle_right,
       bottom_left, bottom_middle, bottom_right
-    ]
+    ].compact
   end
 end

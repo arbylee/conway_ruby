@@ -33,10 +33,6 @@ describe World do
       expect(world.get_cell 3, 3).to eq('foo')
     end
 
-    it 'raises an error if the coordinates dont exist in the world' do
-      expect { world.set_cell 3, 7, 'foo' }.to raise_error(OutOfWorldBoundsError)
-    end
-
     it 'raises an error if the coordinates arent integers' do
       expect { world.set_cell 'chair', 7, 'foo' }.to raise_error(OutOfWorldBoundsError)
       expect { world.set_cell '3.3', 7, 'foo' }.to raise_error(OutOfWorldBoundsError)
@@ -82,12 +78,34 @@ describe World do
       expect(Set.new(neighbors)).to eq(expected_neighbors)
     end
 
-    it 'should find neighboring cell contents across world bounds' do
+    it 'should not return empty cells' do
+      world.set_cell(0,0,nil)
+      world.set_cell(2,2,nil)
+      neighbors = world.get_neighbors(1, 1)
+      expected_neighbors = Set.new [
+               '1,0', '2,0',
+        '0,1',        '2,1',
+        '0,2', '1,2'
+      ]
+      expect(Set.new(neighbors)).to eq(expected_neighbors)
+    end
+
+    it 'should find neighboring cell contents across min world bounds' do
       neighbors = world.get_neighbors(0,0)
       expected_neighbors = Set.new [
         '4,4', '0,4', '1,4',
         '4,0',        '1,0',
         '4,1', '0,1', '1,1'
+      ]
+      expect(Set.new(neighbors)).to eq(expected_neighbors)
+    end
+
+    it 'should find neighboring cell contents across max world bounds' do
+      neighbors = world.get_neighbors(4,4)
+      expected_neighbors = Set.new [
+        '3,3', '4,3', '0,3',
+        '3,4',        '0,4',
+        '3,0', '4,0', '0,0'
       ]
       expect(Set.new(neighbors)).to eq(expected_neighbors)
     end
