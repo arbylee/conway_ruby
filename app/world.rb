@@ -22,7 +22,7 @@ class World
   end
 
   def coordinates_in_world? x, y
-    if !x.is_a?(Integer) || !y.is_a?(Integer) || x < 0 || x >= width || y < 0 || y >= height
+    if !x.is_a?(Integer) || !y.is_a?(Integer) || x >= width || y >= height
       raise OutOfWorldBoundsError.new
     end
   end
@@ -43,5 +43,23 @@ class World
   def get_cell x, y
     coordinates_in_world?(x, y)
     @grid[y][x]
+  end
+
+  def get_neighbors x, y
+    coordinates_in_world?(x, y)
+    top_left      = get_cell x-1, y-1
+    top_middle    = get_cell x,   y-1
+    top_right     = get_cell x+1, y-1
+    middle_left   = get_cell x-1, y
+    middle_right  = get_cell x+1, y
+    bottom_left   = get_cell x-1, y+1
+    bottom_middle = get_cell x,   y+1
+    bottom_right  = get_cell x+1, y+1
+
+    return [
+      top_left,    top_middle,    top_right,
+      middle_left,                middle_right,
+      bottom_left, bottom_middle, bottom_right
+    ]
   end
 end
